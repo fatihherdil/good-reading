@@ -36,5 +36,5 @@ These;
  
  [^1]: By default, MongoDb access port is set to **27017** and port forwarding is enabled.</sup>
  [^2]: By default, Mongo Express ui is accessible at **http:8081** and port forwarding is enabled.</sup>
- [^1]: By default, Redis access port is set to **6379** and port forwarding is enabled.</sup>
+ [^3]: By default, Redis access port is set to **6379** and port forwarding is enabled.</sup>
  [^4]: By default, GoodReading.Web.Api is listening  **http:5000** and port forwarding is enabled.</sup>
