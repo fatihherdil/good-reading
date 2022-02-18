@@ -13,6 +13,7 @@ namespace GoodReading.Persistence
         public IMongoCollection<Customer> Customers => MongoClient.GetDatabase(_databaseName).GetCollection<Customer>("Customers");
         public IMongoCollection<Event> Events => MongoClient.GetDatabase(_databaseName).GetCollection<Event>("Events");
         public IMongoCollection<Product> Products => MongoClient.GetDatabase(_databaseName).GetCollection<Product>("Products");
+        public IMongoCollection<CustomerOrder> CustomerOrders => MongoClient.GetDatabase(_databaseName).GetCollection<CustomerOrder>("CustomerOrders");
         
         public GoodReadingContext(IOptions<MongoDbConfig> mongoConfig)
         {

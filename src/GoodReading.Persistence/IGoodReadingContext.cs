@@ -9,5 +9,6 @@ namespace GoodReading.Persistence
         IMongoCollection<Customer> Customers { get; }
         IMongoCollection<Event> Events { get; }
         IMongoCollection<Product> Products { get; }
+        IMongoCollection<CustomerOrder> CustomerOrders { get; }
     }
 }
