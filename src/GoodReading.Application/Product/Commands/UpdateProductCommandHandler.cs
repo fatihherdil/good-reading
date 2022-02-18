@@ -34,6 +34,10 @@ namespace GoodReading.Application.Product.Commands
             }
 
             var oldProduct = await _productRepository.GetById(request.Id);
+
+            if (oldProduct == null)
+                throw new ApiException((int)HttpStatusCode.NotFound, $"Product with {request.Id} Id cannot be found");
+
             var product = await _productRepository.UpdateProduct(request.Id, request.Product);
 
             await _mediator.Publish(new UpdateProductEvent

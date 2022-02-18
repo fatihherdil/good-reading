@@ -23,7 +23,7 @@ namespace GoodReading.Application.Product.Event
         {
             var @event = new Domain.Entities.Event
             {
-                Message = $"A customer with {notification.Product.Id} id has been created.",
+                Message = $"A product with {notification.Product.Id} id has been created.",
                 Data = JsonSerializer.Serialize(notification.Product)
             };
 
