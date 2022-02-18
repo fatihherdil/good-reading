@@ -70,8 +70,7 @@ namespace GoodReading.Web.Api
             });
 
             #endregion
-
-
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

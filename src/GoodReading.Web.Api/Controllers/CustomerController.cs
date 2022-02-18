@@ -14,12 +14,10 @@ namespace GoodReading.Web.Api.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerRepository _customerRepository;
         private readonly IMediator _mediator;
 
-        public CustomerController(ICustomerRepository customerRepository, IMediator mediator)
+        public CustomerController(IMediator mediator)
         {
-            _customerRepository = customerRepository;
             _mediator = mediator;
         }
 
