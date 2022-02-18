@@ -12,8 +12,8 @@ namespace GoodReading.Persistence
 
         public IMongoCollection<Customer> Customers => MongoClient.GetDatabase(_databaseName).GetCollection<Customer>("Customers");
         public IMongoCollection<Event> Events => MongoClient.GetDatabase(_databaseName).GetCollection<Event>("Events");
-
-
+        public IMongoCollection<Product> Products => MongoClient.GetDatabase(_databaseName).GetCollection<Product>("Products");
+        
         public GoodReadingContext(IOptions<MongoDbConfig> mongoConfig)
         {
             if(mongoConfig.Value.ConnectionString == null)
