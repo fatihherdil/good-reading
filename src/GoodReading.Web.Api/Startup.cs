@@ -1,10 +1,18 @@
-using System.Collections.Generic;
+using System;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using GoodReading.Web.Api.Authorization;
+using GoodReading.Web.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GoodReading.Web.Api
 {
@@ -20,6 +28,42 @@ namespace GoodReading.Web.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(Assembly.Load(new AssemblyName("GoodReading.Application")));
+
+            services.Configure<TokenConfig>(Configuration.GetSection("TokenConfig"));
+            services.AddSingleton<ITokenService, TokenService>();
+
+            #region JWT
+
+            var tokenConfig = Configuration.GetSection("TokenConfig").Get<TokenConfig>();
+            var secret = string.IsNullOrEmpty(tokenConfig.Secret?.Trim()) ? "GoodReadingSecretKey1" : tokenConfig.Secret.Trim();
+            var key = Encoding.UTF8.GetBytes(secret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context => Task.CompletedTask
+                };
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(5)
+                };
+            });
+
+            #endregion
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -55,6 +99,10 @@ namespace GoodReading.Web.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseMiddleware<ErrorHandlingMiddleware>();
             }
 
             app.UseRouting();
