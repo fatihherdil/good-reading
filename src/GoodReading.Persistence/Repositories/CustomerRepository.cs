@@ -18,7 +18,7 @@ namespace GoodReading.Persistence.Repositories
 
         public async Task<Customer> AddCustomerAsync(Customer customer)
         {
-            var alreadyRegistered = (await _goodReadingContext.Customers.Find(c => c.Email == customer.Email || c.Phone == customer.Phone).Limit(1).SingleAsync()) != null;
+            var alreadyRegistered = (await _goodReadingContext.Customers.Find(c => c.Email == customer.Email || c.Phone == customer.Phone).Limit(1).FirstOrDefaultAsync()) != null;
             if (alreadyRegistered)
                 throw new ApiException((int)HttpStatusCode.BadRequest, "Customer is already registered with Email or Phone");
 

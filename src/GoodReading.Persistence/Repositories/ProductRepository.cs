@@ -27,7 +27,7 @@ namespace GoodReading.Persistence.Repositories
 
         public async Task<Product> AddProduct(Product product)
         {
-            var alreadyAdded = (await _goodReadingContext.Products.Find(p=>p.Name == product.Name).Limit(1).SingleAsync()) != null;
+            var alreadyAdded = (await _goodReadingContext.Products.Find(p=>p.Name == product.Name).Limit(1).FirstOrDefaultAsync()) != null;
             if (alreadyAdded)
                 throw new ApiException((int)HttpStatusCode.BadRequest, "A Product with the same name already added.");
 
