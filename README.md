@@ -9,15 +9,15 @@ It is dockerized so you can try it easily. Also, it has swagger documentation, a
 ## Prerequities
    - ##### Docker(https://www.docker.com/get-started)
    - ##### [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0) installed 
-   - ##### Mongo Db
-   - ##### Redis
+   - ##### Mongo Db (via Docker)
+   - ##### Redis (via Docker)
 
 ## Libraries that used
 
    - [MediatR](https://github.com/jbogard/MediatR) - For Processing Commands, Queries, Events
    - [RedLock](https://github.com/samcook/RedLock.net)
-   - [Serilog]https://github.com/serilog/serilog)
-   - [FluentValidation]https://github.com/FluentValidation/FluentValidation)
+   - [Serilog](https://github.com/serilog/serilog)
+   - [FluentValidation](https://github.com/FluentValidation/FluentValidation)
 
 ## Installation
  
