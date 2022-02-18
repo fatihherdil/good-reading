@@ -5,6 +5,7 @@ using GoodReading.Application.Customer.Queries;
 using GoodReading.Application.Product.Commands;
 using GoodReading.Application.Product.Queries;
 using GoodReading.Application.ResponseModels;
+using GoodReading.Domain.Entities;
 using GoodReading.Web.Api.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -45,5 +46,24 @@ namespace GoodReading.Web.Api.Controllers
 
             return CreatedAtAction("Get", new { id = product.Id }, new DefaultResponse(product));
         }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Put([FromRoute] string id, [FromBody] UpdateProductModel productModel)
+        {
+            var product = await _mediator.Send(new UpdateProductCommand
+            {
+                Id = id,
+                Product = new Product
+                {
+                    Price = productModel.Price,
+                    Quantity = productModel.Quantity,
+                    Name = productModel.Name
+                }
+            });
+
+            return Ok(new DefaultResponse(product));
+        }
+
     }
 }

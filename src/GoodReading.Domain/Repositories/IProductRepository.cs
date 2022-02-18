@@ -11,5 +11,6 @@ namespace GoodReading.Domain.Repositories
     {
         Task<Product> GetById(string id);
         Task<Product> AddProduct(Product product);
+        Task<Product> UpdateProduct(string id, Product product);
     }
 }
