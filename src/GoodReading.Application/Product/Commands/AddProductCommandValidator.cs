@@ -12,9 +12,9 @@ namespace GoodReading.Application.Product.Commands
         public AddProductCommandValidator()
         {
             RuleFor(p => p.Name).NotNull().NotEmpty().WithMessage("Name cannot be empty");
-            RuleFor(p => p.Price).NotNull().NotEmpty().LessThanOrEqualTo(0)
+            RuleFor(p => p.Price).NotNull().NotEmpty().GreaterThan(0)
                 .WithMessage("Price cannot be 0 or lower or empty.");
-            RuleFor(p => p.Quantity).NotNull().NotEmpty().LessThanOrEqualTo((short)0)
+            RuleFor(p => p.Quantity).NotNull().NotEmpty().GreaterThan((short)0)
                 .WithMessage("Quantity cannot be 0 or lower or empty");
         }
     }

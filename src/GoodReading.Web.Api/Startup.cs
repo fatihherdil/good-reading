@@ -39,6 +39,7 @@ namespace GoodReading.Web.Api
             services.AddScoped<IGoodReadingContext, GoodReadingContext>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             #region JWT
 
