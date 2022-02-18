@@ -5,19 +5,24 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2DE2E983-76F3-4AC7-937E-3251579835C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodReading.Domain", "GoodReading.Domain\GoodReading.Domain.csproj", "{D3D774E1-CACE-43E0-B380-2E50B07748EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodReading.Domain", "GoodReading.Domain\GoodReading.Domain.csproj", "{D3D774E1-CACE-43E0-B380-2E50B07748EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodReading.Application", "GoodReading.Application\GoodReading.Application.csproj", "{C4C0F949-3639-4884-832F-D5FA227FC72B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodReading.Application", "GoodReading.Application\GoodReading.Application.csproj", "{C4C0F949-3639-4884-832F-D5FA227FC72B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F59CF318-4624-4B73-870F-E8F9C89D044B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodReading.Infrastructure", "GoodReading.Infrastructure\GoodReading.Infrastructure.csproj", "{CAE77147-FF9C-4658-8696-FFDFEFA2BD62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodReading.Infrastructure", "GoodReading.Infrastructure\GoodReading.Infrastructure.csproj", "{CAE77147-FF9C-4658-8696-FFDFEFA2BD62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodReading.Persistence", "GoodReading.Persistence\GoodReading.Persistence.csproj", "{38A50D63-5123-4EE7-A4FF-1C13178AABF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodReading.Persistence", "GoodReading.Persistence\GoodReading.Persistence.csproj", "{38A50D63-5123-4EE7-A4FF-1C13178AABF0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{3B16D243-0A8D-4CA0-B8B5-A245E5B73F66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodReading.Web.Api", "GoodReading.Web.Api\GoodReading.Web.Api.csproj", "{620FB1AC-CD0A-4E2F-BEF6-14DF7B50C2E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodReading.Web.Api", "GoodReading.Web.Api\GoodReading.Web.Api.csproj", "{620FB1AC-CD0A-4E2F-BEF6-14DF7B50C2E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0117BA0-998F-48E8-AF11-59369392A20B}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

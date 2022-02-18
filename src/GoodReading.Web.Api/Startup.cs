@@ -2,6 +2,9 @@ using System;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using GoodReading.Domain.Repositories;
+using GoodReading.Persistence;
+using GoodReading.Persistence.Repositories;
 using GoodReading.Web.Api.Authorization;
 using GoodReading.Web.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
@@ -28,10 +31,14 @@ namespace GoodReading.Web.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMediatR(Assembly.Load(new AssemblyName("GoodReading.Application")));
+            services.AddMediatR(Assembly.Load(new AssemblyName("GoodReading.Application")), this.GetType().Assembly);
 
+            services.Configure<MongoDbConfig>(Configuration.GetSection("MongoDb"));
             services.Configure<TokenConfig>(Configuration.GetSection("TokenConfig"));
             services.AddSingleton<ITokenService, TokenService>();
+            services.AddScoped<IGoodReadingContext, GoodReadingContext>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
 
             #region JWT
 
@@ -75,6 +82,7 @@ namespace GoodReading.Web.Api
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                     {
@@ -106,7 +114,7 @@ namespace GoodReading.Web.Api
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger();
