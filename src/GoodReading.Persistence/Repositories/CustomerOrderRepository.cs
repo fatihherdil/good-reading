@@ -62,15 +62,17 @@ namespace GoodReading.Persistence.Repositories
         private (bool stockError, decimal totalAmount) CheckProductStockAndCalculateTotalAmount(List<OrderProduct> orderedProducts, List<Product> products)
         {
             decimal totalAmount = 0;
-            var orderedProductStock = orderedProducts.ToDictionary<OrderProduct, string, int>(orderedProduct => orderedProduct.Id, orderedProduct => orderedProduct.Quantity);
+            var orderedProductStock = orderedProducts.ToDictionary<OrderProduct, string, OrderProduct>(orderedProduct => orderedProduct.Id, orderedProduct => orderedProduct);
 
             foreach (var product in products)
             {
-                var orderedStockQuantity = orderedProductStock[product.Id];
-                if (orderedStockQuantity > product.Quantity) return (true, 0);
+                var orderProduct = orderedProductStock[product.Id];
+                if (orderProduct.Quantity > product.Quantity) return (true, 0);
 
-                product.Quantity -= orderedStockQuantity;
-                totalAmount += orderedStockQuantity * product.Price;
+                product.Quantity -= orderProduct.Quantity;
+                orderProduct.Price = product.Price;
+
+                totalAmount += orderProduct.Quantity * orderProduct.Price;
             }
 
             return (false, totalAmount);
