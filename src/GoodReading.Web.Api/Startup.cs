@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using GoodReading.Application;
 using GoodReading.Domain.Repositories;
 using GoodReading.Persistence;
 using GoodReading.Persistence.Repositories;
@@ -16,6 +19,9 @@ using Microsoft.OpenApi.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using RedLockNet;
+using RedLockNet.SERedis;
+using RedLockNet.SERedis.Configuration;
 
 namespace GoodReading.Web.Api
 {
@@ -35,12 +41,22 @@ namespace GoodReading.Web.Api
 
             services.Configure<MongoDbConfig>(Configuration.GetSection("MongoDb"));
             services.Configure<TokenConfig>(Configuration.GetSection("TokenConfig"));
+            services.Configure<DistributedLockDnsEndpointConfig>(Configuration.GetSection("DLEndPoint"));
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<IGoodReadingContext, GoodReadingContext>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICustomerOrderRepository, CustomerOrderRepository>();
+
+
+            var DLEndPointConfig = Configuration.GetSection("DLEndPoint").Get<DistributedLockDnsEndpointConfig>();
+            services.AddSingleton<IDistributedLockFactory, RedLockFactory>(rlf =>
+                    RedLockFactory.Create(new List<RedLockEndPoint>()
+                    {
+                        new RedLockEndPoint(new DnsEndPoint(DLEndPointConfig.Host, DLEndPointConfig.Port))
+                    })
+                );
 
             #region JWT
 
@@ -72,7 +88,7 @@ namespace GoodReading.Web.Api
             });
 
             #endregion
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

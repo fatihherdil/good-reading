@@ -27,7 +27,7 @@ namespace GoodReading.Persistence.Repositories
 
         public async Task<Product> AddProduct(Product product)
         {
-            var alreadyAdded = (await _goodReadingContext.Products.Find(p=>p.Name == product.Name).Limit(1).FirstOrDefaultAsync()) != null;
+            var alreadyAdded = (await _goodReadingContext.Products.Find(p => p.Name == product.Name).Limit(1).FirstOrDefaultAsync()) != null;
             if (alreadyAdded)
                 throw new ApiException((int)HttpStatusCode.BadRequest, "A Product with the same name already added.");
 
@@ -38,9 +38,9 @@ namespace GoodReading.Persistence.Repositories
         public async Task<Product> UpdateProduct(string id, Product product)
         {
             var updateDefinition = Builders<Product>.Update
-                .Set(p=>p.Price, product.Price)
-                .Set(p=>p.Name, product.Name)
-                .Set(p=>p.Quantity, product.Quantity);
+                .Set(p => p.Price, product.Price)
+                .Set(p => p.Name, product.Name)
+                .Set(p => p.Quantity, product.Quantity);
 
             product = await _goodReadingContext.Products.FindOneAndUpdateAsync(p => p.Id == id, updateDefinition);
 

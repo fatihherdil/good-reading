@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 using GoodReading.Application.ResponseModels;
 using GoodReading.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Serilog;
 
 namespace GoodReading.Web.Api.Middlewares
 {
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate next;
-        public ErrorHandlingMiddleware(RequestDelegate next)
+        private readonly ILogger _logger;
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger logger)
         {
             this.next = next;
+            this._logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -28,8 +31,9 @@ namespace GoodReading.Web.Api.Middlewares
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
+            _logger.Error(ex, "An Unknown Error Occured !");
             const HttpStatusCode code = HttpStatusCode.InternalServerError;
 
             var responseCode = ex is IHttpException exception ? (int) exception.StatusCode : (int) code;
