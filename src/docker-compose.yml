@@ -16,7 +16,7 @@ services:
     links:
       - mongo-db
     networks:
-      - mongo-compose-network
+      - goodreading-network
 
   mongo-db:
     image: mongo:latest
@@ -30,16 +30,28 @@ services:
     volumes:
       - mongodb_data_container:/data/db
     networks:
-      - mongo-compose-network
+      - goodreading-network
   
   redis:
     image: redis:6.2-alpine
     container_name: redis-server
     ports:
       - "6379:6379"
-  
+    networks:
+      - goodreading-network
+  api:
+    build: .
+    container_name: goodreading-api
+    restart: unless-stopped
+    ports:
+      - 5000:80
+    depends_on: 
+      - mongo-db
+    networks:
+      - goodreading-network
+
 networks: 
-    mongo-compose-network:
+    goodreading-network:
       driver: bridge
 
 volumes:
