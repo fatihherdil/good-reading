@@ -39,7 +39,7 @@ These;
  [^3]: By default, Redis access port is set to **6379** and port forwarding is enabled.</sup>
  [^4]: By default, GoodReading.Web.Api is listening  **http:5000** and port forwarding is enabled.</sup>
 
-## Tests
+ ## Tests
  
 The application includes integration tests on its own.
 These tests are located under **GoodReading.Web.Api.Integration.Tests**.
@@ -50,5 +50,5 @@ To run these tests;
  * Build the solution.
  * Open the terminal at **GoodReading.Web.Api.Integration.Tests\bin\Debug\net5.0** directory
  * Execute following command
- <pre><code>dotnet GoodReading.Web.Api.Integration.Tests.dll</code></pre>
+ <pre><code>dotnet test GoodReading.Web.Api.Integration.Tests.dll</code></pre>
  * Or use Visual Studio's **Test Explorer** pane
