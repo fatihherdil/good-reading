@@ -9,6 +9,7 @@ using GoodReading.Application.Product.Event;
 using GoodReading.Domain.Exceptions;
 using GoodReading.Domain.Repositories;
 using MediatR;
+using MongoDB.Bson;
 
 namespace GoodReading.Application.Product.Commands
 {
@@ -33,12 +34,16 @@ namespace GoodReading.Application.Product.Commands
                 throw new ApiException((int)HttpStatusCode.BadRequest, message);
             }
 
-            var oldProduct = await _productRepository.GetById(request.Id);
+            if (!ObjectId.TryParse(request.Id, out var productId))
+                throw new ApiException((int)HttpStatusCode.BadRequest, "Product Id is not compatible with this system.");
+
+
+            var oldProduct = await _productRepository.GetById(productId.ToString());
 
             if (oldProduct == null)
                 throw new ApiException((int)HttpStatusCode.NotFound, $"Product with {request.Id} Id cannot be found");
 
-            var product = await _productRepository.UpdateProduct(request.Id, request.Product);
+            var product = await _productRepository.UpdateProduct(productId.ToString(), request.Product);
 
             await _mediator.Publish(new UpdateProductEvent
             {

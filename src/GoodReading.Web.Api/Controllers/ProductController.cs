@@ -28,7 +28,7 @@ namespace GoodReading.Web.Api.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get([FromRoute] string id)
         {
             var customer = await _mediator.Send(new GetProductQuery { Id = id });
             return Ok(new DefaultResponse(customer));
