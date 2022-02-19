@@ -39,10 +39,7 @@ namespace GoodReading.Application.Product.Commands
 
 
             var oldProduct = await _productRepository.UpdateProduct(productId.ToString(), request.Product);
-
-            if (oldProduct == null)
-                throw new ApiException((int)HttpStatusCode.NotFound, $"Product with {request.Id} Id cannot be found");
-
+            
             var product = request.Product;
             product.Id = oldProduct.Id;
             product.CreatedAt = oldProduct.CreatedAt;
