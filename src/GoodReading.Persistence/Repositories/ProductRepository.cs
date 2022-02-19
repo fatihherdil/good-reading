@@ -35,6 +35,12 @@ namespace GoodReading.Persistence.Repositories
             return product;
         }
 
+        /// <summary>
+        /// Updates Product with the provided Id
+        /// </summary>
+        /// <param name="id">Product Id to Update</param>
+        /// <param name="product">Updated Product</param>
+        /// <returns>Old Product</returns>
         public async Task<Product> UpdateProduct(string id, Product product)
         {
             var updateDefinition = Builders<Product>.Update
@@ -42,9 +48,7 @@ namespace GoodReading.Persistence.Repositories
                 .Set(p => p.Name, product.Name)
                 .Set(p => p.Quantity, product.Quantity);
 
-            product = await _goodReadingContext.Products.FindOneAndUpdateAsync(p => p.Id == id, updateDefinition);
-
-            return product;
+            return await _goodReadingContext.Products.FindOneAndUpdateAsync(p => p.Id == id, updateDefinition);
         }
     }
 }

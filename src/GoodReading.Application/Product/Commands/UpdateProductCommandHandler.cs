@@ -38,12 +38,14 @@ namespace GoodReading.Application.Product.Commands
                 throw new ApiException((int)HttpStatusCode.BadRequest, "Product Id is not compatible with this system.");
 
 
-            var oldProduct = await _productRepository.GetById(productId.ToString());
+            var oldProduct = await _productRepository.UpdateProduct(productId.ToString(), request.Product);
 
             if (oldProduct == null)
                 throw new ApiException((int)HttpStatusCode.NotFound, $"Product with {request.Id} Id cannot be found");
 
-            var product = await _productRepository.UpdateProduct(productId.ToString(), request.Product);
+            var product = request.Product;
+            product.Id = oldProduct.Id;
+            product.CreatedAt = oldProduct.CreatedAt;
 
             await _mediator.Publish(new UpdateProductEvent
             {
