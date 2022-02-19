@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using GoodReading.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 using Serilog;
 
 namespace GoodReading.Web.Api.Integration.Tests
@@ -17,13 +19,15 @@ namespace GoodReading.Web.Api.Integration.Tests
     {
         protected IHost Host { get; set; }
         protected IConfiguration Configuration { get; set; }
+        protected IGoodReadingContext GoodReadingContext { get; set; }
 
         public HttpClient HttpClient { get; protected set; }
-
+        
         public TestFixture()
         {
             SetConfiguration();
             Host = CreateHostBuilder().StartAsync().Result;
+            GoodReadingContext = Host.Services.GetService(typeof(IGoodReadingContext)) as IGoodReadingContext;
             HttpClient = Host.GetTestClient();
         }
 
@@ -58,6 +62,14 @@ namespace GoodReading.Web.Api.Integration.Tests
         {
             Host?.Dispose();
             HttpClient?.Dispose();
+
+            #region Delete Everything From MongoDB
+
+            GoodReadingContext.Products.DeleteMany(Builders<Domain.Entities.Product>.Filter.Empty);
+            GoodReadingContext.Customers.DeleteMany(Builders<Domain.Entities.Customer>.Filter.Empty);
+            GoodReadingContext.CustomerOrders.DeleteMany(Builders<Domain.Entities.CustomerOrder>.Filter.Empty);
+
+            #endregion
         }
     }
 }
