@@ -15,9 +15,9 @@ It is dockerized so you can try it easily. Also, it has swagger documentation, a
 ## Libraries that used
 
    - [MediatR](https://github.com/jbogard/MediatR) - For Processing Commands, Queries, Events
-   - [RedLock](https://github.com/samcook/RedLock.net)
-   - [Serilog](https://github.com/serilog/serilog)
-   - [FluentValidation](https://github.com/FluentValidation/FluentValidation)
+   - [RedLock](https://github.com/samcook/RedLock.net) - For Distributed Lock via Redis
+   - [Serilog](https://github.com/serilog/serilog) - For Logging purposes
+   - [FluentValidation](https://github.com/FluentValidation/FluentValidation) - For Validating Command and Query models
 
 ## Installation
  
