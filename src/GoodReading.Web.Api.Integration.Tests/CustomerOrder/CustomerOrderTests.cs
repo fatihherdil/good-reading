@@ -7,7 +7,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using GoodReading.Application.CustomerOrder.Queries.GetCustomerOrder;
+using GoodReading.Application.CustomerOrder.Queries.GetCustomerOrders;
 using GoodReading.Application.ResponseModels;
+using GoodReading.Domain.Exceptions;
 using GoodReading.Web.Api.Models;
 using Newtonsoft.Json;
 using Xunit;
@@ -247,6 +249,48 @@ namespace GoodReading.Web.Api.Integration.Tests.CustomerOrder
             Assert.Equal(customerResult.Email, result.CustomerEmail);
             Assert.Equal(customerResult.Phone, result.CustomerPhone);
             Assert.Equal(orderResult?.Id, result.CustomerOrderId);
+        }
+
+        [Fact]
+        public async Task Get_Customer_Orders_Should_Return_Bad_Request()
+        {
+            var command = new GetCustomerOrdersQuery
+            {
+            };
+            var exception = await Assert.ThrowsAsync<ApiException>(async () => await _fixture.Mediator.Send(command));
+            Assert.Equal((int)HttpStatusCode.BadRequest, exception.StatusCode);
+        }        
+        
+        [Fact]
+        public async Task Get_Customer_Order_Should_Return_Bad_Request()
+        {
+            var command = new GetCustomerOrderQuery
+            {
+            };
+            var exception = await Assert.ThrowsAsync<ApiException>(async () => await _fixture.Mediator.Send(command));
+            Assert.Equal((int)HttpStatusCode.BadRequest, exception.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_Customer_Order_Should_Return_Bad_Request_For_Customer()
+        {
+            var command = new GetCustomerOrderQuery
+            {
+                OrderId = "551137c2f9e1fac808a5f572"
+            };
+            var exception = await Assert.ThrowsAsync<ApiException>(async () => await _fixture.Mediator.Send(command));
+            Assert.Equal((int)HttpStatusCode.BadRequest, exception.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_Customer_Order_Should_Return_Bad_Request_For_Order()
+        {
+            var command = new GetCustomerOrderQuery
+            {
+                CustomerId = "551137c2f9e1fac808a5f572"
+            };
+            var exception = await Assert.ThrowsAsync<ApiException>(async () => await _fixture.Mediator.Send(command));
+            Assert.Equal((int)HttpStatusCode.BadRequest, exception.StatusCode);
         }
     }
 }
