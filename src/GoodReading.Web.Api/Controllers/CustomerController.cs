@@ -6,12 +6,14 @@ using GoodReading.Application.ResponseModels;
 using GoodReading.Domain.Repositories;
 using GoodReading.Web.Api.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodReading.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CustomerController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -21,12 +23,19 @@ namespace GoodReading.Web.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet()]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(string id)
         {
             var customer = await _mediator.Send(new GetCustomerQuery { Id = id });
-            return Ok(new DefaultResponse(customer));
+            return Ok(new DefaultResponse(new CustomerDto
+            {
+                Id = customer.Id,
+                Address = customer.Address,
+                Phone = customer.Phone,
+                Email = customer.Email,
+                Name = customer.Name
+            }));
         }
 
         [HttpPost]
@@ -37,10 +46,18 @@ namespace GoodReading.Web.Api.Controllers
             {
                 Email = customerModel.Email,
                 Phone = customerModel.Phone,
-                Name = customerModel.Name
+                Name = customerModel.Name,
+                Address = customerModel.Address
             });
 
-            return CreatedAtAction("Get", new { id = customer.Id }, new DefaultResponse(customer));
+            return CreatedAtAction("Get", new { id = customer.Id }, new DefaultResponse(new CustomerDto
+            {
+                Id = customer.Id,
+                Address = customer.Address,
+                Phone = customer.Phone,
+                Email = customer.Email,
+                Name = customer.Name
+            }));
         }
     }
 }

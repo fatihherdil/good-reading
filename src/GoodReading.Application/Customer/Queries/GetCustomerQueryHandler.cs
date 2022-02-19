@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GoodReading.Domain.Exceptions;
 using GoodReading.Domain.Repositories;
 using MediatR;
+using MongoDB.Bson;
 
 namespace GoodReading.Application.Customer.Queries
 {
@@ -27,7 +28,10 @@ namespace GoodReading.Application.Customer.Queries
                 throw new ApiException((int)HttpStatusCode.BadRequest, message);
             }
 
-            return await _customerRepository.GetCustomerByIdAsync(request.Id);
+            if (!ObjectId.TryParse(request.Id, out var customerId))
+                throw new ApiException((int)HttpStatusCode.BadRequest, "Customer Id is not compatible with this system.");
+
+            return await _customerRepository.GetCustomerByIdAsync(customerId.ToString());
         }
     }
 }

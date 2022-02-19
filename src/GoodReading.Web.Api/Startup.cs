@@ -61,7 +61,7 @@ namespace GoodReading.Web.Api
             #region JWT
 
             var tokenConfig = Configuration.GetSection("TokenConfig").Get<TokenConfig>();
-            var secret = string.IsNullOrEmpty(tokenConfig.Secret?.Trim()) ? "GoodReadingSecretKey1" : tokenConfig.Secret.Trim();
+            var secret = string.IsNullOrEmpty(tokenConfig?.Secret?.Trim()) ? "GoodReadingSecretKey1" : tokenConfig?.Secret?.Trim();
             var key = Encoding.UTF8.GetBytes(secret);
 
             services.AddAuthentication(x =>

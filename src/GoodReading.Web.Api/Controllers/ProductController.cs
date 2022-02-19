@@ -8,12 +8,14 @@ using GoodReading.Application.ResponseModels;
 using GoodReading.Domain.Entities;
 using GoodReading.Web.Api.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodReading.Web.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ProductController : ControllerBase
     {

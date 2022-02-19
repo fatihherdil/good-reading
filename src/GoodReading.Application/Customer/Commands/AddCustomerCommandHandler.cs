@@ -34,7 +34,8 @@ namespace GoodReading.Application.Customer.Commands
             {
                 Email = request.Email,
                 Name = request.Name,
-                Phone = request.Phone
+                Phone = request.Phone,
+                Address = request.Address
             };
 
             await _customerRepository.AddCustomerAsync(customer);

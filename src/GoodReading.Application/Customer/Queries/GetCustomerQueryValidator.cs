@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MongoDB.Bson;
 
 namespace GoodReading.Application.Customer.Queries
 {
