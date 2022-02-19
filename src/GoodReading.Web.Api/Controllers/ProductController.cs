@@ -26,7 +26,7 @@ namespace GoodReading.Web.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(string id)
         {
