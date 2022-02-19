@@ -27,7 +27,7 @@ To run the application, please do the followings
  * Execute following command
  <pre><code>docker-compose up</code></pre>
  
-After the command is executed, an application with three containers on docker will be launched.
+After the command is executed, an application with four containers on docker will be launched.
 These;
  * MongoDb[^1]
  * Mongo Express[^2]
