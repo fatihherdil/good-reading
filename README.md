@@ -6,6 +6,18 @@ It uses .Net Core 5.0, MongoDB, Mediator, FluentValidation, JWT, RedLock and Ser
 
 It is dockerized so you can try it easily. Also, it has swagger documentation, and when you run the project you can reach it on **localhost:5000/swagger/index.html**
 
+## Design
+
+This app has been written with DDD(Domain Driven Design) architecture.
+
+The Domain Layer has documents and interfaces without any business logic.
+
+The Application Layer has Commands, Query, and Notification Handlers. These Handlers validate the request and if it is valid send it to the Persistence layer. Also after every command changes, it publishes a notification for logging.
+
+The Persistence Layer implements Domain interfaces and documents and runs CRUD operations.
+
+The Presentation(Web Api) Layer presents the restful endpoints and handles Authorization via Tokens(JWT).
+
 ## Prerequities
    - ##### Docker(https://www.docker.com/get-started)
    - ##### [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0) installed 
