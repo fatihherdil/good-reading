@@ -41,7 +41,7 @@ services:
       - goodreading-network
   api:
     build: .
-    container_name: goodreading-api
+    container_name: good-reading-api
     restart: unless-stopped
     ports:
       - 5000:80
