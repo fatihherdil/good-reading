@@ -23,10 +23,17 @@ namespace GoodReading.Web.Api.Integration.Tests
         protected IGoodReadingContext GoodReadingContext { get; set; }
 
         public HttpClient HttpClient { get; protected set; }
-        public IMediator Mediator { get; set; }
+        public IMediator Mediator { get; protected set; }
+
+        public List<string> AddedCustomerIds { get; set; }
+        public List<string> AddedProductIds { get; set; }
+        public List<string> AddedCustomerOrderIds { get; set; }
 
         public TestFixture()
         {
+            AddedCustomerIds = new List<string>();
+            AddedProductIds = new List<string>();
+            AddedCustomerOrderIds = new List<string>();
             SetConfiguration();
             Host = CreateHostBuilder().StartAsync().Result;
             GoodReadingContext = Host.Services.GetService(typeof(IGoodReadingContext)) as IGoodReadingContext;
@@ -67,9 +74,9 @@ namespace GoodReading.Web.Api.Integration.Tests
             HttpClient?.Dispose();
             #region Delete Everything From MongoDB
 
-            GoodReadingContext.Products.DeleteMany(Builders<Domain.Entities.Product>.Filter.Empty);
-            GoodReadingContext.Customers.DeleteMany(Builders<Domain.Entities.Customer>.Filter.Empty);
-            GoodReadingContext.CustomerOrders.DeleteMany(Builders<Domain.Entities.CustomerOrder>.Filter.Empty);
+            GoodReadingContext.Customers.DeleteMany(Builders<Domain.Entities.Customer>.Filter.In(c => c.Id, AddedCustomerIds));
+            GoodReadingContext.Products.DeleteMany(Builders<Domain.Entities.Product>.Filter.In(p => p.Id, AddedProductIds));
+            GoodReadingContext.CustomerOrders.DeleteMany(Builders<Domain.Entities.CustomerOrder>.Filter.In(co => co.Id, AddedCustomerOrderIds));
 
             #endregion
         }

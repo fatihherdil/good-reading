@@ -100,6 +100,7 @@ namespace GoodReading.Web.Api.Integration.Tests.Product
             Assert.Equal(quantity, productResult.Quantity);
             Assert.Equal(HttpStatusCode.Created, rawResult.StatusCode);
             Assert.NotNull(rawResult.Headers.Location);
+            _fixture.AddedProductIds.Add(productResult.Id);
         }
 
         [Fact]
@@ -133,6 +134,7 @@ namespace GoodReading.Web.Api.Integration.Tests.Product
             Assert.NotNull(productResult);
             Assert.Equal(productId, productResult.Id);
             Assert.Equal(HttpStatusCode.OK, rawResult.StatusCode);
+            _fixture.AddedProductIds.Add(productResult.Id);
         }
 
         [Fact]
@@ -230,6 +232,7 @@ namespace GoodReading.Web.Api.Integration.Tests.Product
             Assert.Equal(newPrice, productResult.Price);
             Assert.Equal(newQuantity, productResult.Quantity);
             Assert.Equal(HttpStatusCode.OK, rawResult.StatusCode);
+            _fixture.AddedProductIds.Add(productResult.Id);
         }
     }
 }

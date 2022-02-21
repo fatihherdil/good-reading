@@ -104,6 +104,7 @@ namespace GoodReading.Web.Api.Integration.Tests.Customer
             Assert.Equal(phone, customerResult.Phone);
             Assert.Equal(HttpStatusCode.Created, rawResult.StatusCode);
             Assert.NotNull(rawResult.Headers.Location);
+            _fixture.AddedCustomerIds.Add(customerResult.Id);
         }
 
         [Fact]
@@ -140,6 +141,7 @@ namespace GoodReading.Web.Api.Integration.Tests.Customer
             Assert.NotNull(customerResult);
             Assert.Equal(customerId, customerResult.Id);
             Assert.Equal(HttpStatusCode.OK, rawResult.StatusCode);
+            _fixture.AddedCustomerIds.Add(customerResult.Id);
         }
 
         [Fact]

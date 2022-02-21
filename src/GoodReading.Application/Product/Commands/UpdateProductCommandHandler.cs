@@ -39,8 +39,16 @@ namespace GoodReading.Application.Product.Commands
 
             if (!ObjectId.TryParse(request.Id, out var productId))
                 throw new ApiException((int)HttpStatusCode.BadRequest, "Product Id is not compatible with this system.");
-            
-            var oldProduct = await _productRepository.UpdateProduct(productId.ToString(), request.Product);
+
+            Domain.Entities.Product oldProduct = null;
+
+            await using (var @lock = await _distributedLockFactory.CreateLockAsync("AddCustomerOrderLock", TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(1), cancellationToken))
+            {
+                if (@lock.IsAcquired)
+                {
+                    oldProduct = await _productRepository.UpdateProduct(productId.ToString(), request.Product);
+                }
+            }
 
             var product = request.Product;
             product.Id = oldProduct.Id;
