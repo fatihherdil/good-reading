@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\GoodReading.Application\GoodReading.Application.csproj" />
     <ProjectReference Include="..\GoodReading.Domain\GoodReading.Domain.csproj" />
-    <ProjectReference Include="..\GoodReading.Infrastructure\GoodReading.Infrastructure.csproj" />
     <ProjectReference Include="..\GoodReading.Persistence\GoodReading.Persistence.csproj" />
   </ItemGroup>
 
