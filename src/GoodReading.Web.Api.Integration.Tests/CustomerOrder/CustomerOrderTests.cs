@@ -145,6 +145,7 @@ namespace GoodReading.Web.Api.Integration.Tests.CustomerOrder
             _fixture.AddedCustomerIds.Add(customerResult.Id);
             _fixture.AddedProductIds.Add(productResult.Id);
             _fixture.AddedProductIds.Add(productResult2.Id);
+            _fixture.AddedCustomerOrderIds.Add(result.Id);
         }
 
         [Fact]
@@ -198,6 +199,7 @@ namespace GoodReading.Web.Api.Integration.Tests.CustomerOrder
             Assert.Equal(HttpStatusCode.OK, rawResult.StatusCode);
             _fixture.AddedCustomerIds.Add(customerResult.Id);
             _fixture.AddedProductIds.Add(productResult.Id);
+            _fixture.AddedCustomerOrderIds.AddRange(result.Select(r => r.Id));
         }
 
         [Fact]
@@ -256,6 +258,7 @@ namespace GoodReading.Web.Api.Integration.Tests.CustomerOrder
             Assert.Equal(orderResult?.Id, result.CustomerOrderId);
             _fixture.AddedCustomerIds.Add(customerResult.Id);
             _fixture.AddedProductIds.Add(productResult.Id);
+            _fixture.AddedCustomerOrderIds.Add(result.CustomerOrderId);
         }
 
         [Fact]
@@ -266,8 +269,8 @@ namespace GoodReading.Web.Api.Integration.Tests.CustomerOrder
             };
             var exception = await Assert.ThrowsAsync<ApiException>(async () => await _fixture.Mediator.Send(command));
             Assert.Equal((int)HttpStatusCode.BadRequest, exception.StatusCode);
-        }        
-        
+        }
+
         [Fact]
         public async Task Get_Customer_Order_Should_Return_Bad_Request()
         {
